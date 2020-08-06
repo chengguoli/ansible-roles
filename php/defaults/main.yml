@@ -1,0 +1,35 @@
+---
+
+# Default php version to be installed on ubuntu
+php_version: 7.3
+# Whether to install recommended packages
+php_install_recommends: true
+
+# Set this to true if you're using php with apache/nginx/etc
+php_enable_webserver: true
+
+# php-fpm configuration
+php_enable_php_fpm: false
+php_fpm_state: started
+php_fpm_handler_state: restarted
+php_fpm_enabled_on_boot: true
+
+# php packages
+php_packages:
+  - php{{php_version}}-common
+  - php{{php_version}}-cli
+  - php{{php_version}}-dev
+  - php{{php_version}}-fpm
+  - php{{php_version}}-gd
+  - php{{php_version}}-curl
+  - php{{php_version}}-json
+  - php{{php_version}}-xml
+  - php{{php_version}}-mbstring
+  
+# Web Server daemon
+php_webserver_daemon: "apache2"
+
+# PHP-FPM daemon
+php_fpm_daemon: "php-fpm"
+
+

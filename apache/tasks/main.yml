@@ -1,0 +1,36 @@
+---
+- name: Apache | Install apache 
+  apt:
+    name=apache2
+    update_cache=yes
+    state=latest
+
+
+- name: Apache | Create a document root
+  file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    mode: '0755'
+- name: Apache | Copy index test page
+  template:
+    src: "index.html.j2"
+    dest: "/var/www/{{ http_host }}/index.html"
+- name: Apache | Set up virtual host
+  template:
+    src: "apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ site_conf_file }}.conf"
+- name: Disable default site 
+  shell: /usr/sbin/a2dissite 000-default
+
+- name: Enable new site
+  shell: /usr/sbin/a2ensite {{ site_conf_file }}
+  args:
+    creates: /etc/apache2/sites-enabled/{{ site_conf_file }}.conf
+
+- name: Enable mod_rewrite
+  apache2_module: 
+    name=rewrite
+    state=present
+  notify: restart apache2
+
+

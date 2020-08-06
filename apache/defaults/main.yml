@@ -1,0 +1,10 @@
+---
+# 网站的主机名，在site configration file中会用到
+http_host: gsflour.com
+# HTTP 监听端口
+http_port: 80
+# HTTPS监听端口
+https_port: 443
+# 网站的配置文件名称, 默认会在/var/www 文件夹下创建一个此名称的文件夹。也会在/etc/apache2/sites-available 创建 {{site_conf_file}}.conf 
+site_conf_file: gsflour_com
+

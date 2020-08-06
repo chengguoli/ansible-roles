@@ -1,0 +1,12 @@
+---
+
+# 安装MySQL 的默认参数，可以在playbook中覆盖这些参数
+# 如：
+#  roles:
+#    - role: { application_db: somedb }
+
+mysql_root_password: "@ZxfzSd9#6CuISC5"
+application_db: "lamsoon_website_production"
+dbuser: "lamsoon"
+dbpass: "p%NMwW%rqvyqZu11"
+mysql_version: 5.7

@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Chengguo
+  description: Configure ssh and ufw as well as install fail2ban and deploy rails applicaton
+  company: Lam Soon
+  license: 
+  min_ansible_version: 2.9.6
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+
+  categories:
+  - system
+  - networking
+  - rails
+
+dependencies: []

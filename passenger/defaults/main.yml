@@ -1,0 +1,3 @@
+# Set up GPG key for passenger
+passenger_gpg_key_server: 'hkp://keyserver.ubuntu.com:80'
+passenger_gpg_key: '561F9B9CAC40B2F7'

@@ -1,0 +1,10 @@
+---
+security_ipv6: yes
+security_ufw_state: enabled
+# UFW防火墙的规则可以用以下格式列出
+security_ufw_ports:
+  - rule: allow
+    port: 22
+    proto: tcp
+
+apt_cache_valid_time: 86400
