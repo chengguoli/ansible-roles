@@ -1,0 +1,4 @@
+---
+
+- name: Ensure zabbix-agentd is installed
+  
