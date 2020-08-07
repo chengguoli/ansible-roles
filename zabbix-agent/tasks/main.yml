@@ -1,4 +1,4 @@
 ---
-
-- name: Ensure zabbix-agentd is installed
+# Load tasks according to linux distribution
+- include_tasks: {{ ansible_facts['distribution']}}.yml
   
