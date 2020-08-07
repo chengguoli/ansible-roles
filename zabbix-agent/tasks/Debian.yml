@@ -1,0 +1,23 @@
+    - name: Ensure zabbix_agentd is installed
+      apt:
+        name: zabbix-agent
+        state: present
+    - name: Create a directory if not exists
+      file:
+        path: {{log_file_dir }}
+        state: directory
+        owner: zabbix
+        group: zabbix
+        mode: '0755'
+
+    - name: Copy file to remote host
+      template:
+        src: zabbix_agentd.j2
+        dest: /etc/zabbix/zabbix_agentd.conf
+      handler: Restart zabbix-agentd
+
+    - name: Ensure zabbix-agent started
+      service:
+        name: zabbix-agent
+        state: started
+        enabled: yes
