@@ -29,7 +29,7 @@ PidFile=/var/run/zabbix/zabbix_agentd.pid
 # Default:
 # LogFile=
 
-LogFile=/var/log/zabbix-agent/zabbix_agentd.log
+LogFile= {{ log_file_dir }}/zabbix_agentd.log
 
 ### Option: LogFileSize
 #	Maximum size of log file in MB.
@@ -136,7 +136,7 @@ StartAgents=0
 # Default:
 # ServerActive=
 
-ServerActive=10.9.0.70
+ServerActive= {{ zabbix_server }}
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -156,8 +156,7 @@ ServerActive=10.9.0.70
 # Mandatory: no
 # Default:
 # HostnameItem=system.hostname
-HostnameItem=system.hostname
-
+HostnameItem={{ host_name_item }}
 ### Option: HostMetadata
 #	Optional parameter that defines host metadata.
 #	Host metadata is used at host auto-registration process.
@@ -179,7 +178,7 @@ HostnameItem=system.hostname
 # Mandatory: no
 # Default:
 # HostMetadataItem=
-HostMetadataItem=system.uname
+HostMetadataItem= {{ host_metadata_item }}
 ### Option: HostInterface
 #	Optional parameter that defines host interface.
 #	Host interface is used at host auto-registration process.
@@ -209,9 +208,9 @@ HostMetadataItem=system.uname
 # Range: 60-3600
 # Default:
 # RefreshActiveChecks=120
-
+{% if refresh_active_checks defined  %}
 RefreshActiveChecks=3600
-
+{% endif %}
 ### Option: BufferSend
 #	Do not keep data longer than N seconds in buffer.
 #
