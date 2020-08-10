@@ -1,0 +1,33 @@
+---
+
+- name: At first, Update cache
+  dnf:
+    update_cache: yes
+
+- name: Apache | Install apache 
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ httpd_packages }}"
+
+- name: Customized httpd.conf file
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+ 
+- name: Ensure httpd is runing
+  service:
+    name: httpd
+    state: started
+    enabled: true
+    
+
+
+
+
+
+

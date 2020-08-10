@@ -1,0 +1,26 @@
+---
+
+- name: Install unzip 
+  dnf:
+    name: unzip
+    state: present
+
+- name: Check whether Apache is already installed
+  stat:
+    path: "{{ wordpress_httpd_service }}"
+  register: wordpress_httpd_status
+  failed_when: not wordpress_httpd_status.stat.exists
+  tags: wordpress
+
+- name: Check whether wordpress downloaded
+  stat:
+    path: '/tmp/wordpress.zip'
+  register: wordpress_exists
+
+- name: Download  WordPress
+  get_url:
+    url: "{{ wordpress_url }}"
+    dest: "/tmp/wordpress.zip"
+    force: no
+
+  when: not wordpress_exists.stat.exists

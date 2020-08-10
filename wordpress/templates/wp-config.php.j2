@@ -1,0 +1,110 @@
+<?php
+/**
+ * The base configurations of the WordPress.
+ *
+ * This file has the following configurations: MySQL settings, Table Prefix,
+ * Secret Keys, WordPress Language, and ABSPATH. You can find more information
+ * by visiting {@link http://codex.wordpress.org/Editing_wp-config.php Editing
+ * wp-config.php} Codex page. You can get the MySQL settings from your web host.
+ *
+ * This file is used by the wp-config.php creation script during the
+ * installation. You don't have to use the web site, you can just copy this file
+ * to "wp-config.php" and fill in the values.
+ *
+ * @package WordPress
+ */
+define( 'WP_MEMORY_LIMIT', '900M' );
+define( 'WP_MAX_MEMORY_LIMIT', '900M' );
+define ( 'FS_METHOD', 'direct');
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', '{{ wordpress_database }}');
+
+/** MySQL database username */
+define('DB_USER', '{{ wordpress_user }}');
+
+/** MySQL database password */
+define('DB_PASSWORD', '{{ wordpress_password }}');
+
+/** MySQL hostname */
+define('DB_HOST', '{{ wordpress_database_host }}');
+
+/** Database Charset to use in creating database tables. */
+define('DB_CHARSET', 'utf8');
+
+/** The Database Collate type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+
+{% if wordpress_force_ssl %}
+
+/**
+ * Force SSL on Admin pages
+ */
+
+define('FORCE_SSL_ADMIN', true);
+define('FORCE_SSL_LOGIN', true);
+
+/** Fix for redirect loop occuring if WordPress is behind a loadbalancer or cache. */
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+  $_SERVER['HTTPS'] = 'on';
+
+{% endif %}
+
+/**#@+
+ * Authentication Unique Keys and Salts.
+ *
+ * Change these to different unique phrases!
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
+ * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY',         '*x_;0-.&LO,{NU%%cb_Dh8q9NHS++J: r&C?*lqwZkG0F-mcW&;iV?eG+Qvk!k,I');
+define('SECURE_AUTH_KEY',  'TV,Pb31$$j}8d65!V0Z+BPp&9[+~fT[b|1+JBV0JWRzXC>HUC0$io8{yeq0owo35');
+define('LOGGED_IN_KEY',    '48+,u~Q3HU7&+ nfcj|u @@[,ej*:WW4<M8D&KVPmgBp+f5pxs8I`uGoF)RHU3<S');
+define('NONCE_KEY',        'PX4|Xlsq]/b(i:7b%U8RJV0vFI:8pGaCKi Kr.>QzhEq2d*:^TG,=Aj,QF_J9;Pc');
+define('AUTH_SALT',        'ec&B13xZ_?AMnAVmmSLy&vy^0G7TR@-i#4Wg?<OuAaQ[<QVGCV_[Y1)s8X(y)3Vy');
+define('SECURE_AUTH_SALT', '*9,8B6C2|eb7|9WL;f#=R$&~|12YY<s`Y:+^5=PrHxSrV`9|/S|9&(](0sCT`Kg+');
+define('LOGGED_IN_SALT',   '>p-ADoRE|:qXt:bJ5/QD.h})]rTAgpsF |Tw}O()|yjez)_:E2Vs/;H?w[TkbJYR');
+define('NONCE_SALT',       'l*4bOErW+|.1<JyLm(Pp6/jNLx_vOw]@]>lW`/9{bJ_qHFyl6#i@>oCdpMT|!p!@');
+
+/**#@-*/
+
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each a unique
+ * prefix. Only numbers, letters, and underscores please!
+ */
+$table_prefix  = 'wp_';
+
+/**
+ * See http://make.wordpress.org/core/2013/10/25/the-definitive-guide-to-disabling-auto-updates-in-wordpress-3-7
+ */
+
+/* When true, don't allow installation of additional themes and plugins from the admin console */
+define('DISALLOW_FILE_MODS', {{ not wordpress_allow_file_mods }});
+
+/* When true, don't perform automatic updates */
+define('AUTOMATIC_UPDATER_DISABLED', {{ not wordpress_automatic_updates }});
+
+/* Core update is always disabled, WP_AUTO_UPDATE_CORE value is ignore */
+
+/**
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
+ */
+define('WP_DEBUG', {{ wordpress_debug }});
+
+/* That's all, stop editing! Happy blogging. */
+
+/** Absolute path to the WordPress directory. */
+if ( !defined('ABSPATH') )
+  define('ABSPATH', '{{ wordpress_directory }}');
+
+/** Sets up WordPress vars and included files. */
+require_once(ABSPATH . 'wp-settings.php');

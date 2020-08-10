@@ -1,0 +1,7 @@
+<VirtualHost {{ listening_address }}:{{ httpd_listen }} >
+ServerName  {{ http_host }}
+ServerAlias  {{ server_alias }}
+DocumentRoot  /var/www/{{ site_document_root }}
+
+
+</VirtualHost>

@@ -1,0 +1,33 @@
+
+---
+
+wordpress_site: 'www.example.com'
+wordpress_directory: '/var/www/example.com'
+wordpress_url: 'https://wordpress.org/latest.zip'
+wordpress_database_host: localhost
+wordpress_database: wordpress
+wordpress_user: user
+wordpress_password: 'VeryStrongPassword4*'
+wordpress_http_port: 80
+wordpress_ssl_port: 443
+
+wordpress_configuration: '{{ wordpress_directory }}/wp-config.php.ansible'
+
+wordpress_plugin_directory: '{{ wordpress_directory }}/wp-content/plugins'
+wordpress_theme_directory: '{{ wordpress_directory }}/wp-content/themes'
+
+
+
+
+wordpress_plugins: []
+
+wordpress_themes: 
+  - name: haomama-wp
+
+wordpress_force_ssl: false
+wordpress_debug: false
+wordpress_allow_file_mods: false
+wordpress_automatic_updates: false
+wordpress_memory_limit: '900M'
+wordpress_max_memory_limit: '900M'
+wordpress_fs_method: 'direct'

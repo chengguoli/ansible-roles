@@ -2,3 +2,10 @@
   service:
     name: apache2
     state: restarted
+  when: ansible_distribution == "Ubuntu"
+
+- name: restart httpd
+  service:
+    name: httpd
+    state: restarted
+  when: ansible_distribution == "CentOS"

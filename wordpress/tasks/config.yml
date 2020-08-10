@@ -1,0 +1,88 @@
+---
+# Ensure directories exists
+- name: Ensure sites-available directory exists
+  file:
+    path: /etc/httpd/sites-available
+    state: directory
+    owner: root
+    group: root
+
+- name: Ensure sites-enabled directory exists
+  file:
+    path: /etc/httpd/sites-enabled
+    state: directory
+    owner: root
+    group: root
+
+
+- name: copy site configure file to sites-available
+  template:
+    src: wordpress.conf.j2
+    dest: /etc/httpd/sites-available/{{ wordpress_site }}.conf
+    owner: root
+    group: root
+    mode: '0644'
+    setype: httpd_config_t
+  tags: 
+    - config
+
+- name: Enable new site conf file
+  file:
+    src: /etc/httpd/sites-available/{{ wordpress_site }}.conf
+    dest: /etc/httpd/sites-enabled/{{ wordpress_site }}.conf
+    owner: root
+    group: root
+    state: link 
+  tags:
+    - config
+
+- name: Ensure Document Root exists
+  file:
+    path: "{{ wordpress_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+# Additional Tasks
+
+- name: Create new directory for certificate file
+  file:
+    path: "{{ certs_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: certs_path is defined 
+
+- name: Upload certificate file
+  copy:
+    src: files/{{ item }}
+    dest: "{{ certs_path }}/{{ item }}"
+    mode: '644'
+  with_items: "{{ certs_files }}"
+  when: 
+    - certs_path is defined
+    - certs_files is defined
+  
+- name: Modify ssl.conf
+  template:
+    src: ssl.conf.j2
+    dest: /etc/httpd/conf.d/ssl.conf
+    owner: root
+    group: root
+    mode: '0644'   
+
+
+- name: Upload customized php.ini
+  template:
+    src: php.ini.j2
+    dest: "{{ php_ini_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+  when: customize_php
+
+
+
+

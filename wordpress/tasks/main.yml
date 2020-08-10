@@ -1,0 +1,22 @@
+---
+
+- name: Include distribution-specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags: wordpress
+
+# - name: check wordpress site content has been uploaded
+#   stat: 
+#     path: "{{ wordpress_directory }}"
+#   register: wordpress_content
+
+# - name: Install wordpress
+#   include_tasks: install.yml
+
+#   tags: wordpress
+
+
+- name: Configure wordpress
+  include_tasks: config.yml
+
+
+
