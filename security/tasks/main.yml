@@ -1,46 +1,84 @@
 ---
-- name: ensure ssh is installed
-  apt: pkg=openssh-server state=latest update_cache=true cache_valid_time={{ apt_cache_valid_time }}
-  notify:
-    - restart ssh
+- name: Enable PowerTools because EPEL rely on it
+  lineinfile:
+    path: /etc/yum.repos.d/CentOS-PowerTools.repo
+    regexp: '^enabled'
+    line: enabled=1
 
-- name: ensure ufw is installed
-  apt: pkg=ufw state=latest update_cache=true cache_valid_time={{ apt_cache_valid_time }}
-  notify:
-    - restart ufw
+  when: 
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == "8"
+
+- name: check if EPEL repo is already configured
+  stat:
+    path: "{{ epel_repofile_path }}"
+  register: epel_repofile_result
+
+# Enable EPEL repository on CentOS 8
+- name: Install EPEL repository
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  until: result is succeeded
+  retries: 5
+  delay: 10
+  when: not epel_repofile_result.stat.exists
+
+
+# - name: import EPEL GPG key
+#   rpm_key: 
+#     key: "{{ epel_repo_gpg_key_url }} "
+#     state: present
+#   when: not epel_repofile_result.stat.exists
+#   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: ensure fail2ban is installed
-  apt: pkg=fail2ban state=latest update_cache=true cache_valid_time={{ apt_cache_valid_time }}
-  notify:
-    - restart fail2ban
+  package:
+    name: fail2ban
+    state: latest
 
-#- name: ensure ssh is configured
-#  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
-#  notify:
-#    - restart ssh
-
-- name: ensure ufw is configured
-  template: src=ufw_config.j2 dest=/etc/default/ufw owner=root group=root mode=0644
-
-- name: ensure ufw always allows an ssh connection
-  ufw: rule=allow port=ssh proto=tcp state=reloaded
-
-- name: ensure ufw is enabled, disabled or reset
-  ufw: state={{ security_ufw_state }}
-  register: ufw_state
-
-- name: ensure fail2ban is installed
-  apt: pkg=fail2ban state=latest update_cache=true cache_valid_time={{ apt_cache_valid_time }}
-  notify:
-    - restart fail2ban
 - name: Ensure fail2ban is configured
   template: src=jail.j2 dest=/etc/fail2ban/jail.local owner=root group=root mode=0644
-- name: ensure ssh, ufw and fail2ban starts on a fresh reboot
-  service: name={{ item }} state=started enabled=yes
-  with_items:
-    - ssh
-    - ufw
-    - fail2ban
-- name: ensure ufw ports are set
-  ufw: rule={{ item.rule }} port={{ item.port }} proto={{ item.proto }} state=reloaded
-  with_items: "{{ security_ufw_ports }}"
+  notify:
+    - restart fail2ban
+# Configure SSH
+- name: Ensure ssh configured
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_cofig  owner=root group=root mode=0600
+# Install and configure Firewalld
+- name: Install firewalld
+  dnf: 
+    name: firewalld
+    state: present
+
+- name: Enable firewalld
+  service:
+    name: firewalld 
+    state: started 
+    enabled: yes
+
+- name: Set public as default policy
+  command: firewall-cmd --set-default-zone=public
+
+- name: Set up firewall to allow services
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items: "{{ security_firewall_services }}"
+  notify: restart firewalld
+
+- name: Set up firewall to allow ports
+  firewalld:
+    port: "{{ item }}"
+    zone: public
+    permanent: True
+    state: enabled
+  with_items: "{{ security_firewall_ports }}"
+  notify: restart firewalld
+
+
+
+
+

@@ -1,12 +1,8 @@
-- name: update apt cache
-  apt:
-    update_cache = yes
-    cache_valid_time=86400
+
 
 - name: Ensure php packages are installed
-  apt:
+  package:
     name: "{{php_packages }}"
     state: present
-    install_recommends: "{{ php_install_recommends }}"
-  register: php_package_install
   notify: restart webserver
+

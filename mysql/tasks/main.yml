@@ -1,73 +1,68 @@
+
+---
+- name: Check if mysql is already installed
+  stat: path=/etc/init.d/mysql
+  register: mysql_installed
+
 - name: Install python3 mysql libraries
   apt: 
-    name=python3-mysqldb 
-    state=present
+    name: python3-mysqldb 
+    state: present
+- name: Install pip3
+  apt:
+    name: python3-pip
+    state: present
 
+- name: Ensuer pymysql is present
+  pip:
+    name: pymysql
+    state: present
+- debug:
+    msg: "The following pacakges will be installed {{ mysql_packages | list }}"
+    
 - name: MySQL | Install mysql package
   apt: 
-    name: ['mysql-common', 'mysql-server-{{ mysql_version}}', 'mysql-client-{{ mysql_version }}']
+    name: "{{ mysql_packages | list }}"
     state: present
-  become: true
- 
-
-- name: MySQL | create MySQL Configration file
-  template:
-    src=my.cnf.j2
-    dest=/etc/mysql/my.cnf
-    backup=yes
-    owner=root
-    group=root
-    mode=0644
-  become: true
-
-- name: MySQL | create MySQLD configuration file
-  template:
-    src=mysqld.cnf.j2
-    dest=/etc/mysql/conf.d/mysqld.cnf
-    backup=yes
-    owner=root
-    group=root
-    mode=0644
-  become: true
-  notify:
-    - restart mysql
-# - name: MySQL | Set root password
-#   mysql_user:
-#     name=root
-#     host=localhost
-#     password={{mysql_root_password}}
-#   become: true
   
-- name: MySQL | Delete anonymous user for localhost
-  mysql_user:
-    name=""
-    state="absent"
-    host=localhost
-    login_user=root
-    login_password={{mysql_root_password}}
-- name: MySQL | Secure root user for localhost
+# - name: MySQL | Delete anonymous user for localhost
+#   mysql_user:
+#     name=""
+#     state="absent"
+#     host=localhost
+#     login_user=root
+#     login_password={{mysql_root_password}}
+
+ # 默认刚安装mysql，root 用户使用auth_socket
+- name: MySQL | Secure root user for localhost and set root password
   mysql_user:
     name="root"
-    password="{{mysql_root_password}}"  
+    password="{{mysql_root_password | mandatory}}"  
     host="localhost"
-    login_user=root
-    login_password={{mysql_root_password}} 
+    login_unix_socket='/var/run/mysqld/mysqld.sock' 
+    state=present
+  become: yes
+  when: not mysql_installed.stat.exists
+
 - name: MySQL | Create application Database
   mysql_db:
-    db={{application_db}}
-    state=present
-    login_user=root
-    login_password={{mysql_root_password}}
+    db: "{{application_db}}"
+    state: present
+    login_user: root
+    login_password: "{{mysql_root_password}}"
+  when: not mysql_installed.stat.exists
+
   
 
 - name: MySQL | Create application database user
   mysql_user:
     name={{dbuser}}
     password={{dbpass}}
-    priv=*.*:ALL
+    priv={{application_db}}.*:ALL
     host='localhost'
     state=present
     login_user=root
     login_password={{mysql_root_password}}
+  when: not mysql_installed.stat.exists
   notify:
     - restart mysql

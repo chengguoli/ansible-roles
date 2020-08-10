@@ -5,8 +5,16 @@
 #  roles:
 #    - role: { application_db: somedb }
 
-mysql_root_password: "@ZxfzSd9#6CuISC5"
-application_db: "lamsoon_website_production"
-dbuser: "lamsoon"
-dbpass: "p%NMwW%rqvyqZu11"
+
+# variable for mysql
+mysql_root_password: "hQzqtiBV"
+application_db: "wordpress"
+dbuser: "hmm"
+dbpass: "eGz4BARNebwUvcn8"
 mysql_version: 5.7
+
+# MySQL packaes:
+mysql_packages:
+  - mysql-common
+  - mysql-server-{{ mysql_version}}
+  - mysql-client-{{ mysql_version }}

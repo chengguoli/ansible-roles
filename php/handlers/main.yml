@@ -4,12 +4,12 @@
     name: "{{ php_webserver_daemon }}"
     state: restarted
   notify: restart php-fpm
-  when: php_enable_webserver
+
 
 - name: restart php-fpm
   service: 
     name: "{{ php_fpm_daemon }}"
     state: restarted
   when:
-    - php_enable_php_fpm
-    = php_fpm_state == 'started'
+    - php_enable_fpm
+    - php_fpm_state == "{{ php_fpm_state }}"
