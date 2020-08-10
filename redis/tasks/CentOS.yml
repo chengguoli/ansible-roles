@@ -1,0 +1,12 @@
+---
+
+- name: Ensure redis is installed
+  package:
+    name: redis
+    state: present
+    
+- name: Enable redis start on boot
+  service: 
+    name: redis
+    state: started
+    enabled: yes
