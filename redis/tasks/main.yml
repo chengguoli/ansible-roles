@@ -1,3 +1,12 @@
-# Include OS specific tasks
-- name: Install OS Speicific tasks
-  include_tasks: {{ ansible_facts['distribution']}}.yml
+---
+
+- name: Ensure redis is installed
+  package:
+    name: redis
+    state: present
+    
+- name: Enable redis start on boot
+  service: 
+    name: redis
+    state: started
+    enabled: yes
