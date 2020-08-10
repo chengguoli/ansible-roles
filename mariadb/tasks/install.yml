@@ -1,0 +1,11 @@
+- name: Install Mariadb
+  package: 
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ mariadb_packages }}"
+  
+- name: Start MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes

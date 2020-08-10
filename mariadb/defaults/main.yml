@@ -1,0 +1,30 @@
+---
+
+# 安装MySQL 的默认参数，可以在playbook中覆盖这些参数
+# 如：
+#  roles:
+#    - role: { application_db: somedb }
+
+
+# variable for mysql
+mariadb_socket: /var/lib/mysql/mysql.sock
+# mariadb_root_password: "hQzqtiBV"
+# app_db: "wordpress"
+# app_dbuser: "hmm"
+# app_dbpass: "eGz4BARNebwUvcn8"
+mariadb_version: '10.3'
+mariadb_auth_unix_plugin: false
+
+mariadb_databases: []
+  # - name: 'wordpress'
+    # init_script: files/init_wordpress.sql
+
+mariadb_users: []
+   
+
+
+# MySQL packaes:
+mariadb_packages:
+  - mariadb-common
+  - mariadb-server
+  - python3-PyMySQL
