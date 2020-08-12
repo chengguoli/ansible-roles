@@ -10,3 +10,5 @@
     name: redis
     state: started
     enabled: yes
+# Include linux distributon specicific tasks
+- include_tasks: {{ ansible_facts['distribution'] }}.yml
