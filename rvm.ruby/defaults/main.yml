@@ -3,12 +3,12 @@
 # Install 1 or more versions of ruby
 # The last ruby listed will be set as the default ruby
 rvm1_rubies:
-  - 'ruby-2.2.5'
+  - 'ruby-2.3.0'
 
 # Install bundler
 rvm1_bundler_install: True
 # bundler version to use, > 2.0.0 need ruby 2.3 or above
-rvm1_bundler_version: '1.17.3'
+rvm1_bundler_version: '2.0.0'
 
 # Delete a specific version of ruby (ie. ruby-2.1.0)
 rvm1_delete_ruby:

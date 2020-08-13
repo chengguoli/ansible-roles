@@ -1,0 +1,17 @@
+---
+- hosts: servers
+  become: yes
+
+
+  roles:
+    - role: rvm.ruby
+      vars:
+        rvm1_rubies:
+          - 'ruby-2.3.0'
+
+        # Install bundler
+        rvm1_bundler_install: True
+        # bundler version to use, > 2.0.0 need ruby 2.3 or above
+        rvm1_bundler_version: '2.0.0'
+        rvm1_user: 'chengguo'
+      

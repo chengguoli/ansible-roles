@@ -39,6 +39,7 @@
 
 - name: Import GPG keys from rvm.io, if keyservers failed
   shell: 'curl -sSL https://rvm.io/{{ item }} | gpg --batch --import -'
+  warn: false
   with_items:
     - mpapis.asc
     - pkuczynski.asc
