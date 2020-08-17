@@ -17,8 +17,18 @@
     owner: root
     group: root
     mode: '0644'
+- name: Ensure required direcotry exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items: 
+    - /etc/httpd/sites-available
+    - /etc/httpd/sites-enabled
 
- 
+  
 - name: Ensure httpd is runing
   service:
     name: httpd
