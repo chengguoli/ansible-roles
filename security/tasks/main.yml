@@ -44,7 +44,7 @@
     - restart fail2ban
 # Configure SSH
 - name: Ensure ssh configured
-  template: src=sshd_config.j2 dest=/etc/ssh/sshd_cofig  owner=root group=root mode=0600
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config  owner=root group=root mode=0600
 # Install and configure Firewalld
 - name: Install firewalld
   dnf: 
