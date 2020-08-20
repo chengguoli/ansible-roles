@@ -3,3 +3,8 @@
   service:
     name: zabbix-agent
     state: restarted
+    
+- name: dnf_clean_metadata
+  command: dnf clean all
+  args:
+    warn: no 
