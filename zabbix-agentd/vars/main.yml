@@ -1,5 +1,5 @@
 # 可以在ansible playbook 中输入新的值覆盖这些默认值
-zabbix_server: 10.9.0.79 
-refresh_active_checks: 3600
+server_active: 10.9.0.70
+refresh_active_checks: 300
 zabbix_agentd_conf: /etc/zabbix/zabbix_agentd.conf
 

@@ -154,7 +154,7 @@ Server=127.0.0.1
 # Mandatory: no
 # Default:
 # ServerActive=
-{% if erver_active is defined %}
+{% if server_active is defined %}
 ServerActive={{ server_active }}
 {% endif %}
 
@@ -167,7 +167,7 @@ ServerActive={{ server_active }}
 # Default:
 # Hostname=
 
-Hostname=system.hostname
+#Hostname=system.hostname
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
@@ -175,7 +175,7 @@ Hostname=system.hostname
 #
 # Mandatory: no
 # Default:
-# HostnameItem=system.hostname
+HostnameItem=system.hostname
 
 ### Option: HostMetadata
 #	Optional parameter that defines host metadata.
