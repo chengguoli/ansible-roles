@@ -154,7 +154,7 @@ Server=127.0.0.1
 # Mandatory: no
 # Default:
 # ServerActive=
-{% if server_active is defined %}
+{% if erver_active is defined %}
 ServerActive={{ server_active }}
 {% endif %}
 
@@ -228,7 +228,7 @@ Hostname=system.hostname
 # Range: 60-3600
 # Default:
 # RefreshActiveChecks=120
-{% if refresh_active_checks is defined  %}
+{% if  refresh_active_checks is defined %}
 RefreshActiveChecks={{ refresh_active_checks }}
 {% endif %}
 ### Option: BufferSend

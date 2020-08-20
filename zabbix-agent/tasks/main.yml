@@ -1,3 +1,0 @@
----
-# Load tasks according to linux distribution
-- include_tasks: {{ ansible_facts['distribution'] }}.yml
