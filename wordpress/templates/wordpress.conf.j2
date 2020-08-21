@@ -6,13 +6,17 @@ Redirect / https://{{ wordpress_site }}
 <VirtualHost _default_:443>
 #Enable http2
 
-Protocols h2 http/1.1
+Protocols h2 h2c http/1.1
 
 # General setup for the virtual host, inherited from global configuration
 DocumentRoot {{ wordpress_directory }}
 ServerName {{ wordpress_server_name }}
 ServerAlias {{ wordpress_server_alias }}
+<Directory "{{ wordpress_directory }}" >
 
+    AllowOverride all
+
+</Directory>
 # Use separate log files for the SSL virtual host; note that LogLevel
 # is not inherited from httpd.conf.
 ErrorLog logs/ssl_error.log
