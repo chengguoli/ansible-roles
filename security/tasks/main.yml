@@ -38,6 +38,12 @@
     name: fail2ban
     state: latest
 
+- name: Ensure fail2ban started
+  service:
+    name: fail2ban
+    state: started
+    enable: yes 
+    
 - name: Ensure fail2ban is configured
   template: src=jail.j2 dest=/etc/fail2ban/jail.local owner=root group=root mode=0644
   notify:
