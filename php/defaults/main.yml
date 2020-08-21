@@ -29,6 +29,7 @@ php_packages:
   - php-pear
   - php-bcmath
   - php-json
+  - php-opcache
 
   
   
