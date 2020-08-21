@@ -14,8 +14,10 @@ ServerName {{ wordpress_server_name }}
 ServerAlias {{ wordpress_server_alias }}
 <Directory "{{ wordpress_directory }}" >
 
-    AllowOverride all
-
+  DirectoryIndex index.php
+  Options Indexes FollowSymLinks
+  AllowOverride all
+  require all granted
 </Directory>
 # Use separate log files for the SSL virtual host; note that LogLevel
 # is not inherited from httpd.conf.
