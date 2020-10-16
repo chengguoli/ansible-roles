@@ -1,0 +1,21 @@
+---
+- name: Set up prerequisites
+  dnf:
+    name: "{{ nginx_redhat_dependencies }}"
+  when: ansible_facts['os_family'] == "RedHat"
+
+
+- name: Install and configure nginx
+  dnf:
+    name: nginx
+    state: present
+
+- name: nginx is running and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+ 
+- name: Ensure nginx is runing
+  meta: flush_handlers

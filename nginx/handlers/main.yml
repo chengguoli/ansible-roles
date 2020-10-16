@@ -1,0 +1,26 @@
+---
+- name: Systemd daemon-reload
+  systemd:
+    daemon_reload: yes
+
+- name: Start / Reload nginx
+  service:
+    name: nginx
+    state: reloaded
+    enabled: yes
+  when: 
+    - nginx_start | bool
+  listen: Run nginx
+
+- name: Check nginx configuration
+  command: nginx -t
+  register: config
+  ignore_error: yes
+  changed_when: false
+  listen: Run nginx
+- name: Print nginx error if syntax check fails
+  debug: 
+    var: config.stderr_lines
+  failed_when: config.rc != 0
+  when:  config.rc != 0
+  listen: Run nginx

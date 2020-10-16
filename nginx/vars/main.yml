@@ -1,0 +1,9 @@
+# Red Hat dependencies
+
+nginx_redhat_dependencies: [
+  'ca-certificates', 'openssl',
+]
+# Supported Nginx open source modules
+nginx_dodules_list: [
+  'geoip', 'image-filter','njs','perl','xslt',
+]
