@@ -1,15 +1,18 @@
 ---
 
-# Default php version to be installed on ubuntu
-php_version: 7.2
-# Whether to install recommended packages
+remi_repo_url: "https://rpms.remirepo.net/enterprise/remi-release-{{ ansible_distribution_major_version }}.rpm"
+remi_repo_gpg_key_url: "https://rpms.remirepo.net/RPM-GPG-KEY-remi2018"
+ 
+ # Default php version to be installed 
+php_version: 7.4
+# Whether to install recommended packages for Debian only
 php_install_recommends: true
 
 # Set this to true if you're using php with apache/nginx/etc
 php_enable_webserver: true
 
 # php-fpm configuration
-php_enable_fpm: false
+php_enable_fpm: true
 php_fpm_state: started
 php_fpm_handler_state: restarted
 php_fpm_enabled_on_boot: true
@@ -17,19 +20,21 @@ php_fpm_enabled_on_boot: true
 # php packages
 php_packages:
   - php
-  - php-xml
-  - php-cli
-  - php-fpm
-  - php-mysqlnd
-  - php-zip
-  - php-devel
   - php-gd
   - php-mbstring
-  - php-curl
+  - php-intl
+  - php-pecl-apcu
   - php-pear
-  - php-bcmath
-  - php-json
+  - php-mysqlnd
   - php-opcache
+  - php-json
+  - php-zip
+  - php-pear
+  - php-devel
+  - php-ldap
+  - php-smbclient
+  - php-bcmath
+  - php-gmp
 
   
   
