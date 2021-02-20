@@ -1,2 +1,8 @@
-[servers]
-localhost   ansible_ssh_user=chengguo
+[zabbix_agent]
+10.9.0.16 ansible_ssh_user=chengguo ansible_sudo_pass=P@ssw0rd&ansible
+10.1.0.145 ansible_ssh_user=lsadmin ansible_sudo_pass='Ncl0und@us#r$$'
+10.1.0.136 ansible_ssh_user=lsadmin  ansible_sudo_pass='2wL@ms11np@wd'
+10.1.0.137 ansible_ssh_user=lsadmin  ansible_sudo_pass='2wL@ms11np@wd'
+
+[zabbix_agent:vars]
+
